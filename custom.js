@@ -64,6 +64,7 @@
     clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
     arrow: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
     star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    'chevron-down': '<path d="m6 9 6 6 6-6"/>',
   };
 
   // Brand SVG wordmarks (simple, monochrome) — rendered as text in small caps, since SVG logos need exact paths
@@ -180,8 +181,8 @@
       copy.setAttribute('data-injected', 'hero-copy');
       copy.className = 'mt-8 space-y-4';
       copy.innerHTML =
-        '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">\uD83D\uDCF2 \u00BFTu celular tiene problema?</h2>' +
-        '<p class="text-lg sm:text-xl text-white/90 leading-snug">Escr\u00EDbeme ahora y te digo el costo en minutos</p>' +
+        '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">\uD83D\uDCF2 \u00BFTu dispositivo tiene problema?</h2>' +
+        '<p class="text-lg sm:text-xl text-white/90 leading-snug">Escr\u00EDbenos ahora y recibe tu cotizaci\u00F3n en minutos</p>' +
         '<ul class="space-y-2 text-base sm:text-lg text-white/85 pt-2">' +
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Diagnóstico rápido</span></li>' +
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos de calidad y originales</span></li>' +
@@ -292,28 +293,35 @@
   }
 
   // ---------- SERVICES SECTION (GlowCard with cursor-tracked spotlight) ----------
-  // All cards use red hue; very low spread so they stay solidly red with slight shade variation
+  // All cards use red hue; very low spread so they stay solidly red with slight shade variation.
+  // Cards are collapsed by default — click the header (chevron) to expand the description + CTA.
   function buildServiceCard(svc, idx) {
     const hue = 0; // red (HSL)
     return (
       '<article data-glow data-service-card style="--base:' + hue + ';--spread:15;" ' +
-        'class="group relative flex flex-col gap-5 p-7 backdrop-blur-[6px] cursor-pointer transition-transform duration-300 hover:-translate-y-1">' +
+        'class="group relative flex flex-col p-5 backdrop-blur-[6px] transition-transform duration-300 hover:-translate-y-1">' +
         '<div data-glow></div>' +
-        '<div class="relative flex items-center justify-between">' +
-          '<div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 text-white transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]">' +
-            svg(svc.icon, 'h-6 w-6') +
+        '<button type="button" data-service-toggle aria-expanded="false" ' +
+          'class="relative flex items-center gap-3 text-left cursor-pointer w-full">' +
+          '<div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 text-white transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]">' +
+            svg(svc.icon, 'h-5 w-5') +
           '</div>' +
-          '<span class="font-mono text-xs tracking-widest text-white/40">' + String(idx + 1).padStart(2, '0') + '</span>' +
-        '</div>' +
-        '<div class="relative">' +
-          '<h3 class="text-lg font-semibold text-white">' + svc.title + '</h3>' +
-          '<p class="mt-2 text-sm text-white/70 leading-relaxed">' + svc.desc + '</p>' +
-        '</div>' +
-        '<div class="relative mt-auto">' +
-          '<a href="' + WA_URL + '" target="_blank" rel="noopener" ' +
-            'class="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white transition-colors cursor-pointer">' +
-            (svc.cta || 'Escríbenos y cotiza hoy') + svg('arrow', 'h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1') +
-          '</a>' +
+          '<h3 class="text-base sm:text-lg font-semibold text-white flex-1 leading-tight">' + svc.title + '</h3>' +
+          '<span class="font-mono text-xs tracking-widest text-white/40 hidden sm:inline">' + String(idx + 1).padStart(2, '0') + '</span>' +
+          '<span class="ariel-card-chevron inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 text-white/70">' +
+            svg('chevron-down', 'h-4 w-4') +
+          '</span>' +
+        '</button>' +
+        '<div class="ariel-card-body" data-service-body>' +
+          '<div class="ariel-card-body-inner">' +
+            '<p class="mt-4 text-sm text-white/70 leading-relaxed">' + svc.desc + '</p>' +
+            '<div class="mt-4">' +
+              '<a href="' + WA_URL + '" target="_blank" rel="noopener" ' +
+                'class="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white transition-colors cursor-pointer">' +
+                (svc.cta || 'Escríbenos y cotiza hoy') + svg('arrow', 'h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1') +
+              '</a>' +
+            '</div>' +
+          '</div>' +
         '</div>' +
       '</article>'
     );
@@ -495,7 +503,7 @@
             'style="background:#25D366;" ' +
             'class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-black/20 hover:brightness-110 transition-all duration-200 cursor-pointer">' +
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">' + SOCIAL_ICONS.whatsapp + '</svg>' +
-            'Repara tu celular hoy' +
+            'Repara tu dispositivo hoy' +
           '</a>' +
           '<a href="' + IG_URL + '" target="_blank" rel="noopener" ' +
             'style="background:linear-gradient(135deg,#833ab4,#fd1d1d 55%,#fcb045);" ' +
@@ -611,6 +619,20 @@
       // SVGs inside my injected content should never exceed their container
       '[data-injected] svg, [data-service-card] svg { max-width: 100%; flex-shrink: 0; }',
 
+      // Collapsible service cards — grid-template-rows trick gives a smooth
+      // height animation without measuring scrollHeight. Inner block fades
+      // and lifts in slightly for a polished feel.
+      '[data-service-card] [data-service-toggle] { background: transparent; border: 0; padding: 0; color: inherit; font: inherit; }',
+      '[data-service-card] .ariel-card-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 380ms cubic-bezier(0.22, 1, 0.36, 1); }',
+      '[data-service-card] .ariel-card-body-inner { overflow: hidden; opacity: 0; transform: translateY(-6px); transition: opacity 260ms ease 80ms, transform 380ms cubic-bezier(0.22, 1, 0.36, 1); }',
+      '[data-service-card].is-open .ariel-card-body { grid-template-rows: 1fr; }',
+      '[data-service-card].is-open .ariel-card-body-inner { opacity: 1; transform: none; }',
+      '[data-service-card] .ariel-card-chevron { transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms ease, background-color 200ms ease; }',
+      '[data-service-card].is-open .ariel-card-chevron { transform: rotate(180deg); color: #fff; background-color: rgba(255,255,255,0.1); }',
+      '@media (prefers-reduced-motion: reduce) {',
+      '  [data-service-card] .ariel-card-body, [data-service-card] .ariel-card-body-inner, [data-service-card] .ariel-card-chevron { transition: none; }',
+      '}',
+
       // Floating CTAs (WhatsApp + Instagram) — appear on scroll
       '.ariel-floating-ctas {',
       '  position: fixed;',
@@ -676,7 +698,9 @@
       '  align-items: start;',
       '}',
       '@media (min-width: 1024px) {',
-      '  .ariel-grid-image-cards { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2.5rem; }',
+      // Stretch both columns to the same height so the image column matches
+      // the collapsed-cards column and there's no empty space underneath.
+      '  .ariel-grid-image-cards { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2.5rem; align-items: stretch; }',
       '}',
       '.ariel-img-col { display: flex; flex-direction: column; gap: 1rem; }',
       '.ariel-img-slot {',
@@ -689,7 +713,10 @@
       '  max-height: 260px;',
       '}',
       '@media (min-width: 1024px) {',
-      '  .ariel-img-slot { aspect-ratio: 3/4; max-height: none; }',
+      // Drop the aspect-ratio on desktop and let each slot fill the column;
+      // object-fit on the inner img keeps them looking natural at any height.
+      '  .ariel-img-col { height: 100%; min-height: 0; }',
+      '  .ariel-img-slot { aspect-ratio: auto; max-height: none; flex: 1 1 0; min-height: 0; }',
       '}',
       '.ariel-img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }',
       '.ariel-img-col.is-single > .ariel-img-slot { aspect-ratio: 4/3; }',
@@ -906,6 +933,21 @@
   }
 
   // Pointer tracker — sets --lx/--ly (local px inside the card) + --xp (0-1 viewport x for hue modulation)
+  // Toggle the collapsible body when the user clicks the card header.
+  // Event delegation so cards re-rendered later still work.
+  function bindServiceCardToggles() {
+    if (window.__serviceToggleBound) return;
+    window.__serviceToggleBound = true;
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('[data-service-toggle]');
+      if (!btn) return;
+      const card = btn.closest('[data-service-card]');
+      if (!card) return;
+      const open = card.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
   function bindCardSpotlights() {
     if (window.__glowPointerBound) return;
     window.__glowPointerBound = true;
@@ -1247,7 +1289,7 @@
     return true;
   }
 
-  // Replace hero CTAs with "Repara tu celular hoy" and "Cotiza en 1 minuto"
+  // Replace hero CTAs with "Repara tu dispositivo hoy" and "Escríbenos ahora"
   function ensureHeroCTAs() {
     const hero = document.getElementById('inicio');
     if (!hero) return false;
@@ -1257,19 +1299,19 @@
     ctaRow.innerHTML =
       '<a href="' + WA_URL + '" target="_blank" rel="noopener noreferrer" ' +
         'class="inline-flex items-center justify-center gap-2 rounded-lg bg-cta px-6 py-3.5 text-base font-semibold text-white hover:bg-cta-hover transition-colors duration-200 cursor-pointer">' +
-        svg('wrench', 'h-5 w-5') + 'Repara tu celular hoy' +
+        svg('wrench', 'h-5 w-5') + 'Repara tu dispositivo hoy' +
       '</a>' +
       '<a href="' + quoteUrl + '" target="_blank" rel="noopener noreferrer" ' +
         'style="background:#25D366;" ' +
         'class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-base font-semibold text-white hover:brightness-110 transition-all duration-200 cursor-pointer shadow-lg shadow-black/20">' +
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">' + SOCIAL_ICONS.whatsapp + '</svg>' +
-        'Cotiza en 1 minuto' +
+        'Escríbenos ahora' +
       '</a>';
     ctaRow.setAttribute('data-ctas-injected', '1');
     return true;
   }
 
-  // Replace third hero stat with "+10,000 equipos reparados"
+  // Replace third hero stat with "+20,000 equipos reparados"
   function ensureHeroStats() {
     const hero = document.getElementById('inicio');
     if (!hero) return false;
@@ -1277,13 +1319,137 @@
     if (!statsRow || statsRow.getAttribute('data-stats-injected') === '1') return true;
     const items = statsRow.querySelectorAll(':scope > div.flex.items-center.gap-2');
     if (items.length >= 3) {
+      const first = items[0];
+      const firstNum = first.querySelector('span.text-2xl');
+      const firstLabel = first.querySelector('span:not(.text-2xl)');
+      if (firstNum) {
+        reserveNumWidth(firstNum, '+15');
+        animateCount(firstNum, 15, 2200, (v) => '+' + Math.round(v));
+      }
+      if (firstLabel) firstLabel.innerHTML = 'Años de<br/>experiencia';
+
+      const mid = items[1];
+      const midNum = mid.querySelector('span.text-2xl');
+      const midLabel = mid.querySelector('span:not(.text-2xl)');
+      if (midNum) {
+        reserveNumWidth(midNum, '12.3K');
+        animateCount(midNum, 12.3, 2200, (v) => v.toFixed(1) + 'K');
+      }
+      if (midLabel) midLabel.innerHTML = 'Seguidores<br/>en redes sociales';
+
       const last = items[items.length - 1];
       const num = last.querySelector('span.text-2xl');
       const label = last.querySelector('span:not(.text-2xl)');
-      if (num) num.textContent = '+10,000';
+      if (num) {
+        reserveNumWidth(num, '+20,000');
+        const fmt = new Intl.NumberFormat('en-US');
+        animateCount(num, 20000, 2200, (v) => '+' + fmt.format(Math.round(v)));
+      }
       if (label) label.innerHTML = 'Equipos<br/>reparados';
     }
     statsRow.setAttribute('data-stats-injected', '1');
+    return true;
+  }
+
+  // Reserve the rendered width of the final value so siblings don't shift
+  // while the counter animates. Tabular figures keep digit width stable.
+  function reserveNumWidth(el, finalText) {
+    el.style.display = 'inline-block';
+    el.style.textAlign = 'right';
+    el.style.fontVariantNumeric = 'tabular-nums';
+    el.textContent = finalText;
+    const w = el.getBoundingClientRect().width;
+    el.style.minWidth = w + 'px';
+  }
+
+  // Animate a number from 0 -> target with an exponential ease-out curve.
+  // `format` converts the current numeric value into the displayed string.
+  function animateCount(el, target, duration, format) {
+    const start = performance.now();
+    el.textContent = format(0);
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(2, -10 * t);
+      el.textContent = format(target * eased);
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = format(target);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // Remove the "Servicio técnico profesional desde 2008..." footer blurb
+  // and tighten the layout so the now-short logo column doesn't leave a
+  // big empty gap. Center the logo column vertically within the row.
+  function ensureFooterCleanup() {
+    const footer = document.querySelector('footer');
+    if (!footer || footer.getAttribute('data-footer-cleaned') === '1') return true;
+    const paras = footer.querySelectorAll('p');
+    for (const p of paras) {
+      if (p.textContent && p.textContent.indexOf('Servicio técnico profesional desde 2008') !== -1) {
+        const logoBlock = p.previousElementSibling;
+        const logoCol = p.parentElement;
+        p.remove();
+        if (logoCol) {
+          // Vertically center the logo within its grid row to absorb the
+          // empty space the removed paragraph used to fill.
+          logoCol.classList.add('flex', 'flex-col', 'justify-center');
+        }
+        if (logoBlock && logoBlock.classList) {
+          logoBlock.classList.add('justify-center', 'md:justify-start');
+        }
+        // Pull the row's vertical padding tighter now that there's less content.
+        const grid = logoCol && logoCol.parentElement;
+        if (grid && grid.parentElement) {
+          grid.parentElement.classList.remove('py-12');
+          grid.parentElement.classList.add('py-8');
+        }
+        break;
+      }
+    }
+    footer.setAttribute('data-footer-cleaned', '1');
+    return true;
+  }
+
+  // The badge over the About-section photo says "2008 / Establecido".
+  // The shop opened in 2018, so update only the badge year.
+  function ensureEstablishedBadge() {
+    const labels = document.querySelectorAll('span');
+    for (const span of labels) {
+      if (span.textContent && span.textContent.trim() === 'Establecido') {
+        const year = span.parentElement && span.parentElement.querySelector('span.text-3xl');
+        if (year && year.textContent.trim() === '2008') {
+          year.textContent = '2018';
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Rewrite the "Expertos en Tecnología desde 2008" About section so the
+  // headline and lead paragraph emphasize trayectoria + tienda física.
+  function ensureAboutSection() {
+    const headings = document.querySelectorAll('h2');
+    let h2 = null;
+    for (const h of headings) {
+      if (h.getAttribute('data-about-rewritten') === '1') return true;
+      if (h.textContent && h.textContent.indexOf('Expertos en') !== -1) { h2 = h; break; }
+    }
+    if (!h2) return false;
+
+    h2.innerHTML = 'Experiencia <span class="text-primary">respaldada</span> con resultados';
+    h2.setAttribute('data-about-rewritten', '1');
+
+    let p = h2.nextElementSibling;
+    while (p && p.tagName !== 'P') p = p.nextElementSibling;
+    if (p) {
+      p.textContent = 'Desde 2008 ofrecemos servicio técnico profesional, y en 2018 abrimos nuestra tienda física en San Pedro de Macorís. Más de 15 años acumulando trayectoria y miles de equipos reparados con calidad, transparencia y responsabilidad.';
+      let p2 = p.nextElementSibling;
+      while (p2 && p2.tagName !== 'P') p2 = p2.nextElementSibling;
+      if (p2) {
+        p2.textContent = 'Nos respaldan más de 23,500 reparaciones y miles de clientes que confían en nosotros año tras año. No importa si necesitas una reparación sencilla, compleja de micro-soldadura, o accesorios de alta calidad u originales, te atendemos con la misma dedicación.';
+      }
+    }
     return true;
   }
 
@@ -1367,11 +1533,15 @@
     ensureHeroCTAs();
     ensureHeroStats();
     ensureHeroSocialBar();
+    ensureAboutSection();
+    ensureEstablishedBadge();
+    ensureFooterCleanup();
     ensureFloatingCTAs();
     bindBrandScrollSync();
     replaceServicesSection();
     ensureWhyUsSection();
     bindCardSpotlights();
+    bindServiceCardToggles();
     replaceGallerySection();
     bindLazyVideos();
     ensureMapSection();
