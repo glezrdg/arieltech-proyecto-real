@@ -397,14 +397,6 @@
       text: 'Fácil de llegar, una tienda de accesorios de celular y venta de laptop. Compré una laptop a excelente precio y sin muchos rodeos. ¡Experiencia excelente!',
       meta: 'Local Guide · 49 reseñas · 1 foto',
       color: '#f59e0b'
-    },
-    {
-      name: 'Joel Contreras',
-      time: 'Hace 5 años',
-      rating: 5,
-      text: 'Me gusta porque a pesar de ser pequeño, es muy acogedor, siempre está fresco y las atenciones son de primera.',
-      meta: 'Local Guide · 50 reseñas · 79 fotos',
-      color: '#10b981'
     }
   ];
 
@@ -1517,7 +1509,7 @@
       let p2 = p.nextElementSibling;
       while (p2 && p2.tagName !== 'P') p2 = p2.nextElementSibling;
       if (p2) {
-        p2.textContent = 'Nos respaldan más de 23,500 reparaciones y miles de clientes que confían en nosotros año tras año. No importa si necesitas una reparación sencilla, compleja de micro-soldadura, o accesorios de alta calidad u originales, te atendemos con la misma dedicación.';
+        p2.textContent = 'Nos respaldan más de 20,000 reparaciones y miles de clientes que confían en nosotros año tras año. No importa si necesitas una reparación sencilla, compleja de micro-soldadura, o accesorios de alta calidad u originales, te atendemos con la misma dedicación.';
       }
     }
     return true;
