@@ -1392,28 +1392,38 @@
     requestAnimationFrame(frame);
   }
 
-  // Force-load every Next.js Image (data-nimg) on the page. Some mobile
-  // browsers and data-saver modes don't reliably load these — they keep
-  // the lazy attribute "pending" and the user sees a broken-image icon.
-  // This rewrites src to bypass srcSet selection quirks and triggers a
-  // fresh load.
+  // Replace every Next.js Image (data-nimg) with a fresh, plain <img>.
+  // Mobile browsers cache failed loads against the element, so just
+  // mutating attributes doesn't always retry. Swapping the node guarantees
+  // the browser starts a new request with no prior failure state.
   function rehydrateNextImages() {
-    const imgs = document.querySelectorAll('img[data-nimg]');
+    const imgs = document.querySelectorAll('img[data-nimg]:not([data-nimg-rehydrated])');
     imgs.forEach(function (img) {
-      if (img.getAttribute('data-nimg-rehydrated') === '1') return;
-      img.setAttribute('data-nimg-rehydrated', '1');
-      img.removeAttribute('loading');
-      img.removeAttribute('decoding');
       const realSrc = img.getAttribute('src');
-      // Drop srcSet so the browser doesn't try to pick a 2x/3x variant
-      // that some mobile parsers mis-resolve.
-      img.removeAttribute('srcSet');
-      img.removeAttribute('srcset');
-      if (realSrc) {
-        // Re-set src to kick off a fresh request and clear any previous
-        // failed-load state cached against the element.
-        img.src = realSrc;
-      }
+      if (!realSrc) return;
+      const fresh = document.createElement('img');
+      fresh.setAttribute('data-nimg-rehydrated', '1');
+      fresh.alt = img.getAttribute('alt') || '';
+      // Preserve layout attributes/classes/styles so positioning still works.
+      const cls = img.getAttribute('class');
+      if (cls) fresh.setAttribute('class', cls);
+      const style = img.getAttribute('style');
+      if (style) fresh.setAttribute('style', style);
+      const width = img.getAttribute('width');
+      const height = img.getAttribute('height');
+      if (width) fresh.setAttribute('width', width);
+      if (height) fresh.setAttribute('height', height);
+      // Eager load + sync decoding so mobile browsers fetch immediately.
+      fresh.loading = 'eager';
+      fresh.decoding = 'sync';
+      // If the fresh image fails too, retry once with a cache-busting query
+      // — but ONLY on real network failure, not on every load.
+      fresh.addEventListener('error', function onErr() {
+        fresh.removeEventListener('error', onErr);
+        fresh.src = realSrc + (realSrc.indexOf('?') === -1 ? '?' : '&') + 'r=' + Date.now();
+      }, { once: true });
+      fresh.src = realSrc;
+      img.parentNode.replaceChild(fresh, img);
     });
   }
 
