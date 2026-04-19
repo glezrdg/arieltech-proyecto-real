@@ -1223,9 +1223,16 @@
           'aria-label="' + s.label + '" title="' + s.label + '" ' +
           'style="' + bgStyle + '" ' +
           'class="ariel-social-btn group relative inline-flex shrink-0 items-center justify-center rounded-2xl text-white shadow-lg shadow-black/30 ring-1 ring-white/15 hover:scale-110 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' + (s.key === 'tiktok' || s.key === 'whatsapp' || s.key === 'phone' || s.key === 'facebook' ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="' + (s.key === 'tiktok' || s.key === 'whatsapp' || s.key === 'phone' || s.key === 'facebook' ? '0' : '2') + '" stroke-linecap="round" stroke-linejoin="round" class="ariel-social-icon drop-shadow" aria-hidden="true">' +
+          // WhatsApp gets a hardcoded white fill and no drop-shadow filter —
+          // before this it inherited via currentColor and a Tailwind filter
+          // that combined with the multi-subpath WA logo could erase the icon.
+          // WhatsApp uses a PNG icon that fills the button — bypasses every
+          // SVG rendering issue we ran into trying to use the brand path.
+          (s.key === 'whatsapp'
+            ? '<img src="/images/whatsapp.svg" alt="WhatsApp" class="absolute inset-0 w-full h-full rounded-2xl" />'
+            : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' + (s.key === 'tiktok' || s.key === 'phone' || s.key === 'facebook' ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="' + (s.key === 'tiktok' || s.key === 'phone' || s.key === 'facebook' ? '0' : '2') + '" stroke-linecap="round" stroke-linejoin="round" class="ariel-social-icon drop-shadow" aria-hidden="true">' +
             (SOCIAL_ICONS[s.key] || '') +
-          '</svg>' +
+          '</svg>') +
         '</a>'
       );
     }).join('');
@@ -1260,9 +1267,16 @@
           'aria-label="' + s.label + '" title="' + s.label + '" ' +
           'style="' + bgStyle + '" ' +
           'class="ariel-social-btn group relative inline-flex shrink-0 items-center justify-center rounded-2xl text-white shadow-lg shadow-black/30 ring-1 ring-white/15 hover:scale-110 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' + (s.key === 'tiktok' || s.key === 'whatsapp' || s.key === 'phone' || s.key === 'facebook' ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="' + (s.key === 'tiktok' || s.key === 'whatsapp' || s.key === 'phone' || s.key === 'facebook' ? '0' : '2') + '" stroke-linecap="round" stroke-linejoin="round" class="ariel-social-icon drop-shadow" aria-hidden="true">' +
+          // WhatsApp gets a hardcoded white fill and no drop-shadow filter —
+          // before this it inherited via currentColor and a Tailwind filter
+          // that combined with the multi-subpath WA logo could erase the icon.
+          // WhatsApp uses a PNG icon that fills the button — bypasses every
+          // SVG rendering issue we ran into trying to use the brand path.
+          (s.key === 'whatsapp'
+            ? '<img src="/images/whatsapp.svg" alt="WhatsApp" class="absolute inset-0 w-full h-full rounded-2xl" />'
+            : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' + (s.key === 'tiktok' || s.key === 'phone' || s.key === 'facebook' ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="' + (s.key === 'tiktok' || s.key === 'phone' || s.key === 'facebook' ? '0' : '2') + '" stroke-linecap="round" stroke-linejoin="round" class="ariel-social-icon drop-shadow" aria-hidden="true">' +
             (SOCIAL_ICONS[s.key] || '') +
-          '</svg>' +
+          '</svg>') +
         '</a>'
       );
     }).join('');
