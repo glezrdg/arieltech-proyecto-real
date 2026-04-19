@@ -1392,39 +1392,59 @@
     requestAnimationFrame(frame);
   }
 
-  // Replace every Next.js Image (data-nimg) with a fresh, plain <img>.
-  // Mobile browsers cache failed loads against the element, so just
-  // mutating attributes doesn't always retry. Swapping the node guarantees
-  // the browser starts a new request with no prior failure state.
+  // Replace one Next.js Image element with a fresh, plain <img>.
+  function swapNextImage(img) {
+    if (!img || img.getAttribute('data-nimg-rehydrated') === '1') return;
+    const realSrc = img.getAttribute('src');
+    if (!realSrc) return;
+    const fresh = document.createElement('img');
+    fresh.setAttribute('data-nimg-rehydrated', '1');
+    fresh.alt = img.getAttribute('alt') || '';
+    const cls = img.getAttribute('class');
+    if (cls) fresh.setAttribute('class', cls);
+    const style = img.getAttribute('style');
+    if (style) fresh.setAttribute('style', style);
+    const width = img.getAttribute('width');
+    const height = img.getAttribute('height');
+    if (width) fresh.setAttribute('width', width);
+    if (height) fresh.setAttribute('height', height);
+    fresh.loading = 'eager';
+    fresh.decoding = 'sync';
+    fresh.addEventListener('error', function onErr() {
+      fresh.removeEventListener('error', onErr);
+      fresh.src = realSrc + (realSrc.indexOf('?') === -1 ? '?' : '&') + 'r=' + Date.now();
+    }, { once: true });
+    fresh.src = realSrc;
+    if (img.parentNode) img.parentNode.replaceChild(fresh, img);
+  }
+
+  // Sweep the page once for any unrehydrated Next.js Images.
   function rehydrateNextImages() {
-    const imgs = document.querySelectorAll('img[data-nimg]:not([data-nimg-rehydrated])');
-    imgs.forEach(function (img) {
-      const realSrc = img.getAttribute('src');
-      if (!realSrc) return;
-      const fresh = document.createElement('img');
-      fresh.setAttribute('data-nimg-rehydrated', '1');
-      fresh.alt = img.getAttribute('alt') || '';
-      // Preserve layout attributes/classes/styles so positioning still works.
-      const cls = img.getAttribute('class');
-      if (cls) fresh.setAttribute('class', cls);
-      const style = img.getAttribute('style');
-      if (style) fresh.setAttribute('style', style);
-      const width = img.getAttribute('width');
-      const height = img.getAttribute('height');
-      if (width) fresh.setAttribute('width', width);
-      if (height) fresh.setAttribute('height', height);
-      // Eager load + sync decoding so mobile browsers fetch immediately.
-      fresh.loading = 'eager';
-      fresh.decoding = 'sync';
-      // If the fresh image fails too, retry once with a cache-busting query
-      // — but ONLY on real network failure, not on every load.
-      fresh.addEventListener('error', function onErr() {
-        fresh.removeEventListener('error', onErr);
-        fresh.src = realSrc + (realSrc.indexOf('?') === -1 ? '?' : '&') + 'r=' + Date.now();
-      }, { once: true });
-      fresh.src = realSrc;
-      img.parentNode.replaceChild(fresh, img);
+    document.querySelectorAll('img[data-nimg]:not([data-nimg-rehydrated])').forEach(swapNextImage);
+  }
+
+  // React on a static export still hydrates and may re-mount the original
+  // <img data-nimg> nodes after our sweep, restoring the broken-on-mobile
+  // state. A MutationObserver keeps catching any new ones for the rest of
+  // the page lifetime so the fix can't be undone.
+  function watchNextImages() {
+    if (window.__nimgObserver) return;
+    rehydrateNextImages();
+    const obs = new MutationObserver(function (records) {
+      for (const r of records) {
+        for (const node of r.addedNodes) {
+          if (node.nodeType !== 1) continue;
+          if (node.matches && node.matches('img[data-nimg]:not([data-nimg-rehydrated])')) {
+            swapNextImage(node);
+          }
+          if (node.querySelectorAll) {
+            node.querySelectorAll('img[data-nimg]:not([data-nimg-rehydrated])').forEach(swapNextImage);
+          }
+        }
+      }
     });
+    obs.observe(document.body, { childList: true, subtree: true });
+    window.__nimgObserver = obs;
   }
 
   // Remove the "Servicio técnico profesional desde 2008..." footer blurb
@@ -1586,7 +1606,7 @@
     ensureAboutSection();
     ensureEstablishedBadge();
     ensureFooterCleanup();
-    rehydrateNextImages();
+    watchNextImages();
     ensureFloatingCTAs();
     bindBrandScrollSync();
     replaceServicesSection();
