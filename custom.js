@@ -6,7 +6,6 @@
   const IG_URL = 'https://www.instagram.com/arieltechmobile/';
   const SOCIALS = [
     { key: 'whatsapp',  label: 'WhatsApp',  href: 'https://wa.me/%2B18294405195?text=Hola%2C%20quiero%20cotizar%20la%20reparaci%C3%B3n%20de%20mi%20celular%20%F0%9F%93%B1', bg: '#25D366', style: 'solid' },
-    { key: 'instagram', label: 'Instagram', href: 'https://instagram.com/arieltechmobile',           bg: 'linear-gradient(135deg,#833ab4,#fd1d1d 55%,#fcb045)', style: 'gradient' },
     { key: 'facebook',  label: 'Facebook',  href: 'https://www.facebook.com/arieltechmobile',        bg: '#1877F2', style: 'solid' },
     { key: 'tiktok',    label: 'TikTok',    href: 'https://www.tiktok.com/@arieltechmobile',         bg: '#000000', style: 'tiktok' },
     { key: 'maps',      label: 'Ubicación', href: 'https://goo.gl/maps/LppBCm5ReajsdddB9',           bg: '#4285f4', style: 'solid' },
