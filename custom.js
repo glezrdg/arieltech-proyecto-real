@@ -1392,6 +1392,31 @@
     requestAnimationFrame(frame);
   }
 
+  // Force-load every Next.js Image (data-nimg) on the page. Some mobile
+  // browsers and data-saver modes don't reliably load these — they keep
+  // the lazy attribute "pending" and the user sees a broken-image icon.
+  // This rewrites src to bypass srcSet selection quirks and triggers a
+  // fresh load.
+  function rehydrateNextImages() {
+    const imgs = document.querySelectorAll('img[data-nimg]');
+    imgs.forEach(function (img) {
+      if (img.getAttribute('data-nimg-rehydrated') === '1') return;
+      img.setAttribute('data-nimg-rehydrated', '1');
+      img.removeAttribute('loading');
+      img.removeAttribute('decoding');
+      const realSrc = img.getAttribute('src');
+      // Drop srcSet so the browser doesn't try to pick a 2x/3x variant
+      // that some mobile parsers mis-resolve.
+      img.removeAttribute('srcSet');
+      img.removeAttribute('srcset');
+      if (realSrc) {
+        // Re-set src to kick off a fresh request and clear any previous
+        // failed-load state cached against the element.
+        img.src = realSrc;
+      }
+    });
+  }
+
   // Remove the "Servicio técnico profesional desde 2008..." footer blurb
   // and tighten the layout so the now-short logo column doesn't leave a
   // big empty gap. Center the logo column vertically within the row.
@@ -1551,6 +1576,7 @@
     ensureAboutSection();
     ensureEstablishedBadge();
     ensureFooterCleanup();
+    rehydrateNextImages();
     ensureFloatingCTAs();
     bindBrandScrollSync();
     replaceServicesSection();
