@@ -24,15 +24,16 @@
   };
   const IG_POSTS = [
     { shortcode: 'gallery-01', type: 'image', likes: 412 },
+    { shortcode: 'vid-1', type: 'video', likes: 703, url: '/images/video%20galeria.mp4' },
     { shortcode: 'gallery-03', type: 'image', likes: 287 },
+    { shortcode: 'vid-2', type: 'video', likes: 612, url: '/images/video%20galeria%202.mp4' },
     { shortcode: 'gallery-04', type: 'image', likes: 503 },
+    { shortcode: 'vid-3', type: 'video', likes: 548, url: '/images/video%20galeria%203.mp4' },
     { shortcode: 'gallery-05', type: 'image', likes: 194 },
-    { shortcode: 'gallery-06', type: 'image', likes: 621 },
-    { shortcode: 'gallery-07', type: 'image', likes: 548 },
     { shortcode: 'gallery-09', type: 'image', likes: 289 },
   ];
   // Hero — single video in loop (lightest option for bad connections)
-  const HERO_VIDEO = '/media/DWPJKUSCQsK.mp4';
+  const HERO_VIDEO = '/images/video%20posible%20hero.mp4';
   const HERO_POSTER = '/images/DWPJKUSCQsK.jpg';
   const MAPS_EMBED =
     'https://maps.google.com/maps?q=Ariel+Tech+Mobile&ll=18.5572016,-69.299495&z=17&output=embed';
@@ -153,6 +154,8 @@
     // Give the content block GlowCard behavior (red border + spotlight on hover)
     const content = hero.querySelector('.relative.z-10 > .max-w-2xl');
     if (content && !content.hasAttribute('data-hero-frame')) {
+      content.classList.remove('max-w-2xl');
+      content.classList.add('max-w-7xl');
       content.setAttribute('data-glow', '');
       content.setAttribute('data-hero-frame', '');
       content.style.setProperty('--base', '0');
@@ -168,7 +171,7 @@
     if (desc && desc.tagName === 'P') desc.style.display = 'none';
 
     h1.setAttribute('data-injected-brand', '1');
-    h1.className = 'flex items-center gap-4 sm:gap-5';
+    h1.className = 'flex items-center justify-center gap-4 sm:gap-5';
     h1.innerHTML =
       '<img src="/images/avatar.jpg" alt="Ariel Tech Mobile" class="ariel-hero-logo rounded-full"/>' +
       '<span class="flex flex-col leading-none">' +
@@ -179,16 +182,16 @@
     if (content && !content.querySelector('[data-injected="hero-copy"]')) {
       const copy = document.createElement('div');
       copy.setAttribute('data-injected', 'hero-copy');
-      copy.className = 'mt-8 space-y-4';
+      copy.className = 'mt-8 space-y-4 text-center';
       copy.innerHTML =
-        '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">\uD83D\uDCF2 \u00BFTu dispositivo tiene problema?</h2>' +
+        '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">\uD83D\uDCF2 \u00BFProblemas con tu dispositivo?</h2>' +
         '<p class="text-lg sm:text-xl text-white/90 leading-snug">Escr\u00EDbenos ahora y recibe tu cotizaci\u00F3n en minutos</p>' +
-        '<ul class="space-y-2 text-base sm:text-lg text-white/85 pt-2">' +
-          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Diagnóstico rápido</span></li>' +
-          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos de calidad y originales</span></li>' +
-          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Garantía real y extendida</span></li>' +
+        '<ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-base sm:text-lg text-white/85 pt-2">' +
+          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Expertos en micro-soldadura profesional</span></li>' +
+          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificados</span></li>' +
+          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Garantía real en cada trabajo</span></li>' +
         '</ul>' +
-        '<p class="text-xs text-white/60 italic">Diagnóstico sin costo inicial</p>';
+        '<p class="text-xs text-white/60 italic">Diagnóstico profesional sin costo inicial</p>';
       h1.insertAdjacentElement('afterend', copy);
     }
     return true;
@@ -960,18 +963,13 @@
   // ---------- GALLERY (poster by default, plays on click) ----------
   function buildGalleryTile(post, idx) {
     const isVideo = post.type === 'video';
-    const posterUrl = '/images/' + post.shortcode + '.jpg';
-    const videoUrl = isVideo ? '/media/' + post.shortcode + '.mp4' : null;
+    const posterUrl = post.poster || '/images/' + post.shortcode + '.jpg';
+    const videoUrl = isVideo ? (post.url || '/media/' + post.shortcode + '.mp4') : null;
     const eager = idx < 3;
     const loadingAttr = eager ? 'eager' : 'lazy';
     const priorityAttr = eager ? ' fetchpriority="high"' : '';
     const media = isVideo
-      ? '<video data-click-video data-src="' + videoUrl + '" loop muted playsinline preload="none" poster="' + posterUrl + '" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"></video>' +
-        '<button type="button" data-play-btn aria-label="Reproducir video" class="ariel-play-btn absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300">' +
-          '<span class="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-black shadow-lg">' +
-            '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
-          '</span>' +
-        '</button>'
+      ? '<video data-autoplay-video src="' + videoUrl + '" autoplay loop muted playsinline preload="auto" class="h-full w-full object-cover" style="transform:scale(1.18);transform-origin:center;"></video>'
       : '<img src="' + posterUrl + '" alt="Trabajo de Ariel Tech" loading="' + loadingAttr + '" decoding="async"' + priorityAttr + ' class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style="background:#1f1f24;">';
     return (
       '<a data-glow data-gallery-tile href="' + IG_URL + '" target="_blank" rel="noopener" style="--base:0;--spread:15;background:#1f1f24;" class="group relative block aspect-square overflow-hidden rounded-2xl cursor-pointer">' +
@@ -1311,7 +1309,7 @@
         'style="background:#25D366;" ' +
         'class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-base font-semibold text-white hover:brightness-110 transition-all duration-200 cursor-pointer shadow-lg shadow-black/20">' +
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">' + SOCIAL_ICONS.whatsapp + '</svg>' +
-        'Escríbenos ahora' +
+        'Escríbenos ahora!' +
       '</a>';
     ctaRow.setAttribute('data-ctas-injected', '1');
     return true;
@@ -1323,6 +1321,7 @@
     if (!hero) return false;
     const statsRow = hero.querySelector('.mt-12.flex.items-center');
     if (!statsRow || statsRow.getAttribute('data-stats-injected') === '1') return true;
+    statsRow.classList.add('justify-around', 'w-full');
     const items = statsRow.querySelectorAll(':scope > div.flex.items-center.gap-2');
     if (items.length >= 3) {
       const first = items[0];
@@ -1471,6 +1470,24 @@
     return true;
   }
 
+  // Swap the About-section hero photo (the one with the "2018 Establecido" badge)
+  // from gallery-08.jpg to the storefront photo (fototienda.jpeg).
+  function ensureAboutImage() {
+    const section = document.getElementById('nosotros');
+    if (!section) return false;
+    const imgs = section.querySelectorAll('img[alt="Taller de reparación Ariel Tech Mobile"]');
+    const TARGET = '/images/fototienda.jpeg';
+    let changed = false;
+    imgs.forEach(function (img) {
+      if (img.getAttribute('data-swapped') === '1') return;
+      img.src = TARGET;
+      img.removeAttribute('srcset');
+      img.setAttribute('data-swapped', '1');
+      changed = true;
+    });
+    return changed || imgs.length > 0;
+  }
+
   // The badge over the About-section photo says "2008 / Establecido".
   // The shop opened in 2018, so update only the badge year.
   function ensureEstablishedBadge() {
@@ -1595,6 +1612,7 @@
     ensureHeroStats();
     ensureHeroSocialBar();
     ensureAboutSection();
+    ensureAboutImage();
     ensureEstablishedBadge();
     ensureFooterCleanup();
     watchNextImages();
@@ -1645,11 +1663,12 @@
   }
 
   function boot() {
-    // Wait for `load` (all resources loaded) then give React a breath to hydrate
-    if (document.readyState === 'complete') {
-      setTimeout(startAfterHydration, 400);
+    // Run as soon as the DOM is parsed — don't wait for `load` (images/video),
+    // otherwise the safety fallback in index.html reveals the un-injected page first.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startAfterHydration, { once: true });
     } else {
-      window.addEventListener('load', function () { setTimeout(startAfterHydration, 400); });
+      startAfterHydration();
     }
   }
   boot();
