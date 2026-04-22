@@ -171,12 +171,13 @@
     if (desc && desc.tagName === 'P') desc.style.display = 'none';
 
     h1.setAttribute('data-injected-brand', '1');
-    h1.className = 'flex items-center justify-center gap-4 sm:gap-5';
+    h1.className = 'flex items-center justify-center gap-3 sm:gap-5';
+    h1.style.flexWrap = 'nowrap';
     h1.innerHTML =
       '<img src="/images/avatar.jpg" alt="Ariel Tech Mobile" class="ariel-hero-logo rounded-full"/>' +
-      '<span class="flex flex-col leading-none">' +
-        '<span class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">Ariel<span class="text-primary">Tech</span>Mobile</span>' +
-        '<span class="mt-2 text-sm sm:text-base text-white/85 font-medium">Reparación y venta de dispositivos electrónicos</span>' +
+      '<span class="flex flex-col items-center leading-none">' +
+        '<span class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white" style="white-space:nowrap;">Ariel<span class="text-primary">Tech</span>Mobile</span>' +
+        '<span class="mt-2 text-sm sm:text-base text-white/85 font-medium">Expertos en tecnología</span>' +
       '</span>';
 
     if (content && !content.querySelector('[data-injected="hero-copy"]')) {
@@ -768,9 +769,12 @@
       '}',
 
       // Hero logo — explicit sizing (Tailwind arbitrary classes don't exist in pre-built CSS)
-      '.ariel-hero-logo { width: 60px !important; height: 60px !important; flex-shrink: 0; object-fit: cover; }',
+      '.ariel-hero-logo { width: 44px !important; height: 44px !important; flex-shrink: 0; object-fit: cover; }',
       '@media (min-width: 640px) { .ariel-hero-logo { width: 84px !important; height: 84px !important; } }',
       '@media (min-width: 1024px) { .ariel-hero-logo { width: 96px !important; height: 96px !important; } }',
+      // Hero brand H1 — force logo + name on a single line on all screens
+      'h1[data-injected-brand] { flex-wrap: nowrap !important; }',
+      'h1[data-injected-brand] > span { min-width: 0; }',
 
       // Hero H1 brand — tighten on mobile so the hero fits without colliding with the nav
       '#inicio h1[data-injected-brand] span.text-4xl { font-size: 1.875rem !important; line-height: 1 !important; }',
