@@ -29,8 +29,6 @@
     { shortcode: 'vid-2', type: 'video', likes: 612, url: '/images/video%20galeria%202.mp4' },
     { shortcode: 'gallery-04', type: 'image', likes: 503 },
     { shortcode: 'vid-3', type: 'video', likes: 548, url: '/images/video%20galeria%203.mp4' },
-    { shortcode: 'gallery-05', type: 'image', likes: 194 },
-    { shortcode: 'gallery-09', type: 'image', likes: 289 },
   ];
   // Hero — single video in loop (lightest option for bad connections)
   const HERO_VIDEO = '/images/video%20posible%20hero.mp4';
@@ -187,11 +185,11 @@
       copy.className = 'mt-8 space-y-4 text-center';
       copy.innerHTML =
         '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight uppercase tracking-tight">\u00BFPROBLEMAS CON TU DISPOSITIVO?</h2>' +
-        '<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-base sm:text-lg text-white/85 pt-2">' +
-          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Expertos en micro-soldadura profesional</span></li>' +
-          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Venta de dispositivos electrónicos</span></li>' +
-          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Garantía real en cada trabajo</span></li>' +
-          '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificado</span></li>' +
+        '<ul data-hero-benefits class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-base sm:text-lg text-white/85 pt-2">' +
+          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Expertos en micro-soldadura profesional</span></li>' +
+          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Venta de dispositivos electrónicos</span></li>' +
+          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Garantía real en cada trabajo</span></li>' +
+          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificado</span></li>' +
         '</ul>' +
         '<p class="text-xs text-white/60 italic">Diagnóstico profesional sin costo inicial</p>';
       h1.insertAdjacentElement('afterend', copy);
@@ -586,6 +584,16 @@
       '.ariel-play-btn:hover > span { transform: scale(1.08); }',
       '.ariel-play-btn > span { transition: transform 200ms ease; }',
       '[data-gallery-tile].is-playing .ariel-play-btn { opacity: 0; pointer-events: none; }',
+
+      // Hero benefits list — stretch to frame edges so left items align left and right items align right
+      '[data-hero-benefits] { width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; padding-left: 0 !important; padding-right: 0 !important; }',
+      '[data-hero-benefits] > li { justify-content: flex-start !important; text-align: left !important; }',
+      '@media (min-width: 640px) and (max-width: 1023px) {',
+      '  [data-hero-benefits] > li:nth-child(even) { justify-content: flex-end !important; }',
+      '}',
+      '@media (min-width: 1024px) {',
+      '  [data-hero-benefits] > li { justify-content: center !important; }',
+      '}',
 
       // Hero content frame — reuses [data-glow] system for the red spotlight + border glow
       '[data-hero-frame] {',
