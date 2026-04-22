@@ -27,7 +27,7 @@
     { shortcode: 'vid-1', type: 'video', likes: 703, url: '/images/video%20galeria.mp4' },
     { shortcode: 'gallery-03', type: 'image', likes: 287 },
     { shortcode: 'vid-2', type: 'video', likes: 612, url: '/images/video%20galeria%202.mp4' },
-    { shortcode: 'gallery-04', type: 'image', likes: 503 },
+    { shortcode: 'gallery-04', type: 'image', likes: 503, poster: '/images/face%20IDDD.jpeg' },
     { shortcode: 'vid-3', type: 'video', likes: 548, url: '/images/video%20galeria%203.mp4' },
   ];
   // Hero — single video in loop (lightest option for bad connections)
@@ -191,7 +191,7 @@
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Seguridad y garantía en cada servicio</span></li>' +
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificado</span></li>' +
         '</ul>' +
-        '<p class="text-xs text-white/60 italic">Diagnóstico profesional sin costo inicial</p>';
+        '<p class="text-xs text-white/60 italic" style="margin-top: 3.5rem; margin-bottom: 0;">Diagnóstico profesional sin costo inicial</p>';
       h1.insertAdjacentElement('afterend', copy);
     }
     return true;
@@ -485,7 +485,7 @@
     section.innerHTML =
       '<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">' +
         '<div class="max-w-3xl mx-auto text-center mb-12">' +
-          '<h2 class="text-3xl sm:text-4xl font-bold text-text leading-tight">Somos la <span class="text-primary">mejor opción</span> en San Pedro. No hay otro para la reparación de tu celular.</h2>' +
+          '<h2 class="text-3xl sm:text-4xl font-bold text-text leading-tight">Tu <span class="text-primary">mejor opción</span> en San Pedro de Macorís para reparar tu dispositivo. Claro, sin costos ocultos y con resultados garantizados.</h2>' +
         '</div>' +
         '<div class="ariel-grid-image-cards">' +
           '<div class="ariel-img-col is-single">' +
@@ -657,8 +657,8 @@
       '  display: inline-flex;',
       '  align-items: center;',
       '  justify-content: center;',
-      '  width: 56px;',
-      '  height: 56px;',
+      '  width: 68px;',
+      '  height: 68px;',
       '  border-radius: 9999px;',
       '  color: #fff;',
       '  box-shadow: 0 10px 30px rgba(0,0,0,0.35);',
@@ -666,7 +666,7 @@
       '  transition: transform 200ms ease, box-shadow 200ms ease;',
       '}',
       '.ariel-fab:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,0.45); }',
-      '.ariel-fab svg { width: 28px; height: 28px; }',
+      '.ariel-fab svg { width: 34px; height: 34px; }',
       '.ariel-fab-wa { background: #25D366; }',
       '.ariel-fab-wa::after {',
       '  content: "";',
@@ -681,7 +681,7 @@
       '.ariel-fab-wa { position: relative; }',
       '.ariel-fab-ig { background: linear-gradient(135deg,#833ab4,#fd1d1d 55%,#fcb045); }',
       '@keyframes ariel-pulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 0; } }',
-      '@media (min-width: 640px) { .ariel-floating-ctas { right: 1.5rem; bottom: 1.5rem; gap: 0.875rem; } .ariel-fab { width: 60px; height: 60px; } }',
+      '@media (min-width: 640px) { .ariel-floating-ctas { right: 1.5rem; bottom: 1.5rem; gap: 0.875rem; } .ariel-fab { width: 74px; height: 74px; } .ariel-fab svg { width: 38px; height: 38px; } }',
 
       // Contact section "Solicitar Cotización" → green WhatsApp button
       '#contacto a[href*="wa.me"] { background: #25D366 !important; }',
@@ -1497,12 +1497,12 @@
   }
 
   // Swap the About-section hero photo (the one with the "2018 Establecido" badge)
-  // from gallery-08.jpg to the storefront photo (fototienda.jpeg).
+  // to the aligned storefront photo.
   function ensureAboutImage() {
     const section = document.getElementById('nosotros');
     if (!section) return false;
     const imgs = section.querySelectorAll('img[alt="Taller de reparación Ariel Tech Mobile"]');
-    const TARGET = '/images/fototienda.jpeg';
+    const TARGET = '/images/foto%20alineada%20de%20la%20tienda.png';
     let changed = false;
     imgs.forEach(function (img) {
       if (img.getAttribute('data-swapped') === '1') return;
@@ -1547,11 +1547,18 @@
     let p = h2.nextElementSibling;
     while (p && p.tagName !== 'P') p = p.nextElementSibling;
     if (p) {
-      p.textContent = 'Desde 2008 ofrecemos servicio técnico profesional, y en 2018 abrimos nuestra tienda física en San Pedro de Macorís. Más de 15 años acumulando trayectoria y miles de equipos reparados con calidad, transparencia y responsabilidad.';
+      p.textContent = 'Desde 2008 brindamos servicio técnico especializado, consolidando una amplia experiencia en la reparación de dispositivos electrónicos. En 2018, establecimos nuestra tienda física en el municipio de Consuelo, San Pedro de Macorís, reafirmando nuestro compromiso con un servicio cercano y confiable en toda la región.';
       let p2 = p.nextElementSibling;
       while (p2 && p2.tagName !== 'P') p2 = p2.nextElementSibling;
       if (p2) {
-        p2.textContent = 'Nos respaldan más de 30,000 reparaciones y miles de clientes que confían en nosotros año tras año. No importa si necesitas una reparación sencilla, compleja de micro-soldadura, o accesorios de alta calidad u originales, te atendemos con la misma dedicación.';
+        p2.textContent = 'Contamos con más de 15 años de experiencia y un taller equipado con tecnología de última generación para la reparación de tus dispositivos, trabajando bajo altos estándares de calidad, transparencia y responsabilidad.';
+        if (!p2.nextElementSibling || p2.nextElementSibling.getAttribute('data-about-p3') !== '1') {
+          const p3 = document.createElement('p');
+          p3.setAttribute('data-about-p3', '1');
+          p3.className = p2.className;
+          p3.textContent = 'Más de 30,000 reparaciones realizadas nos respaldan, junto a miles de clientes que han confiado en nosotros a lo largo de los años.';
+          p2.insertAdjacentElement('afterend', p3);
+        }
       }
     }
     return true;
