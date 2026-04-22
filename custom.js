@@ -1327,7 +1327,7 @@
     return true;
   }
 
-  // Replace third hero stat with "+20,000 equipos reparados"
+  // Replace third hero stat with "+30,000 equipos reparados"
   function ensureHeroStats() {
     const hero = document.getElementById('inicio');
     if (!hero) return false;
@@ -1358,9 +1358,9 @@
       const num = last.querySelector('span.text-2xl');
       const label = last.querySelector('span:not(.text-2xl)');
       if (num) {
-        reserveNumWidth(num, '+20,000');
+        reserveNumWidth(num, '+30,000');
         const fmt = new Intl.NumberFormat('en-US');
-        animateCount(num, 20000, 2200, (v) => '+' + fmt.format(Math.round(v)));
+        animateCount(num, 30000, 2200, (v) => '+' + fmt.format(Math.round(v)));
       }
       if (label) label.innerHTML = 'Equipos<br/>reparados';
     }
@@ -1537,7 +1537,7 @@
       let p2 = p.nextElementSibling;
       while (p2 && p2.tagName !== 'P') p2 = p2.nextElementSibling;
       if (p2) {
-        p2.textContent = 'Nos respaldan más de 20,000 reparaciones y miles de clientes que confían en nosotros año tras año. No importa si necesitas una reparación sencilla, compleja de micro-soldadura, o accesorios de alta calidad u originales, te atendemos con la misma dedicación.';
+        p2.textContent = 'Nos respaldan más de 30,000 reparaciones y miles de clientes que confían en nosotros año tras año. No importa si necesitas una reparación sencilla, compleja de micro-soldadura, o accesorios de alta calidad u originales, te atendemos con la misma dedicación.';
       }
     }
     return true;
