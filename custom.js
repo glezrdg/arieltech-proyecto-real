@@ -174,7 +174,8 @@
     h1.className = 'flex items-center justify-center gap-3 sm:gap-5';
     h1.style.flexWrap = 'nowrap';
     h1.innerHTML =
-      '<img src="/images/avatar.jpg" alt="Ariel Tech Mobile" class="ariel-hero-logo rounded-full"/>' +
+      '<img src="/images/avatar.jpg" alt="Ariel Tech Mobile" class="ariel-hero-logo ariel-hero-logo-desktop rounded-full"/>' +
+      '<img src="/images/logo-ariel-white.png" alt="Ariel Tech Mobile" class="ariel-hero-logo-mobile"/>' +
       '<span class="flex flex-col items-center leading-none">' +
         '<span class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white" style="white-space:nowrap;">Ariel<span class="text-primary">Tech</span>Mobile</span>' +
         '<span class="mt-2 text-sm sm:text-base text-white/85 font-medium">Expertos en tecnología</span>' +
@@ -186,7 +187,6 @@
       copy.className = 'mt-8 space-y-4 text-center';
       copy.innerHTML =
         '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">\uD83D\uDCF2 \u00BFProblemas con tu dispositivo?</h2>' +
-        '<p class="text-lg sm:text-xl text-white/90 leading-snug">Escr\u00EDbenos ahora y recibe tu cotizaci\u00F3n en minutos</p>' +
         '<ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-base sm:text-lg text-white/85 pt-2">' +
           '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Expertos en micro-soldadura profesional</span></li>' +
           '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificados</span></li>' +
@@ -772,6 +772,12 @@
       '.ariel-hero-logo { width: 44px !important; height: 44px !important; flex-shrink: 0; object-fit: cover; }',
       '@media (min-width: 640px) { .ariel-hero-logo { width: 84px !important; height: 84px !important; } }',
       '@media (min-width: 1024px) { .ariel-hero-logo { width: 96px !important; height: 96px !important; } }',
+      // Hero logo — transparent variant shown only on mobile (centered above the brand text)
+      '.ariel-hero-logo-mobile { display: none; }',
+      '@media (max-width: 639px) {',
+      '  .ariel-hero-logo-desktop { display: none !important; }',
+      '  .ariel-hero-logo-mobile { display: block !important; width: 88px !important; height: auto !important; max-height: 88px; object-fit: contain; background: transparent !important; margin: 0 auto; }',
+      '}',
       // Hero brand H1 — force logo + name on a single line on all screens
       'h1[data-injected-brand] { flex-wrap: nowrap !important; }',
       'h1[data-injected-brand] > span { min-width: 0; }',
@@ -787,10 +793,12 @@
       '  #inicio h1[data-injected-brand] span.text-4xl { font-size: 3.25rem !important; }',
       '  #inicio h1[data-injected-brand] span.mt-2 { font-size: 1rem !important; }',
       '}',
+      '@media (max-width: 639px) {',
+      '  #inicio h1[data-injected-brand] { width: 100% !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 0.5rem !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important; }',
+      '  #inicio h1[data-injected-brand] > span { align-items: center !important; text-align: center !important; width: 100%; }',
+      '}',
       '@media (max-width: 479px) {',
-      '  #inicio h1[data-injected-brand] { flex-direction: column !important; align-items: flex-start !important; gap: 0.5rem !important; }',
       '  #inicio h1[data-injected-brand] span.text-4xl { font-size: 1.625rem !important; }',
-      '  .ariel-hero-logo { width: 56px !important; height: 56px !important; }',
       '}',
 
       // Hero new copy block (headline + beneficios + microcopy) — smaller on mobile
