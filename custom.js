@@ -176,7 +176,7 @@
       '<img src="/images/logo-ariel-white.png" alt="Ariel Tech Mobile" class="ariel-hero-logo-mobile"/>' +
       '<span class="flex flex-col items-center leading-none">' +
         '<span class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white" style="white-space:nowrap;">Ariel<span class="text-primary">Tech</span>Mobile</span>' +
-        '<span class="mt-2 text-sm sm:text-base text-white/85 font-medium">Expertos en tecnología</span>' +
+        '<span class="mt-2 text-sm sm:text-base text-white/85 font-medium self-start" style="margin-left: -4rem;">Expertos en tecnología</span>' +
       '</span>';
 
     if (content && !content.querySelector('[data-injected="hero-copy"]')) {
