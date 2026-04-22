@@ -188,7 +188,7 @@
         '<ul data-hero-benefits class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-base sm:text-lg text-white/85 pt-2">' +
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Expertos en micro-soldadura profesional</span></li>' +
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Venta de dispositivos electrónicos</span></li>' +
-          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Garantía real en cada trabajo</span></li>' +
+          '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Seguridad y garantía en cada servicio</span></li>' +
           '<li class="flex items-start gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificado</span></li>' +
         '</ul>' +
         '<p class="text-xs text-white/60 italic">Diagnóstico profesional sin costo inicial</p>';
@@ -1568,12 +1568,6 @@
         'class="ariel-fab ariel-fab-wa">' +
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
           (SOCIAL_ICONS.whatsapp || '') +
-        '</svg>' +
-      '</a>' +
-      '<a href="' + IG_URL + '" target="_blank" rel="noopener" aria-label="Instagram" title="Síguenos en Instagram" ' +
-        'class="ariel-fab ariel-fab-ig">' +
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-          (SOCIAL_ICONS.instagram || '') +
         '</svg>' +
       '</a>';
     document.body.appendChild(wrap);
