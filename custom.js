@@ -793,14 +793,14 @@
 
       // Hero H1 brand — tighten on mobile so the hero fits without colliding with the nav
       '#inicio h1[data-injected-brand] span.text-4xl { font-size: 1.875rem !important; line-height: 1 !important; }',
-      '#inicio h1[data-injected-brand] span.mt-2 { font-size: 0.75rem !important; }',
+      '#inicio h1[data-injected-brand] span.mt-2 { font-size: 1rem !important; margin-top: 0.5rem !important; }',
       '@media (min-width: 640px) {',
       '  #inicio h1[data-injected-brand] span.text-4xl { font-size: 2.5rem !important; }',
-      '  #inicio h1[data-injected-brand] span.mt-2 { font-size: 0.875rem !important; }',
+      '  #inicio h1[data-injected-brand] span.mt-2 { font-size: 1.125rem !important; }',
       '}',
       '@media (min-width: 1024px) {',
       '  #inicio h1[data-injected-brand] span.text-4xl { font-size: 3.25rem !important; }',
-      '  #inicio h1[data-injected-brand] span.mt-2 { font-size: 1rem !important; }',
+      '  #inicio h1[data-injected-brand] span.mt-2 { font-size: 1.25rem !important; }',
       '}',
       '@media (max-width: 639px) {',
       '  #inicio h1[data-injected-brand] { width: 100% !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 0.5rem !important; text-align: center !important; margin-left: auto !important; margin-right: auto !important; }',
