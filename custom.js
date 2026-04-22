@@ -186,7 +186,7 @@
       copy.setAttribute('data-injected', 'hero-copy');
       copy.className = 'mt-8 space-y-4 text-center';
       copy.innerHTML =
-        '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">\uD83D\uDCF2 \u00BFProblemas con tu dispositivo?</h2>' +
+        '<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight uppercase tracking-tight">\u00BFPROBLEMAS CON TU DISPOSITIVO?</h2>' +
         '<ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-base sm:text-lg text-white/85 pt-2">' +
           '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Expertos en micro-soldadura profesional</span></li>' +
           '<li class="flex items-start justify-center gap-2"><span class="text-primary mt-1">&#10003;</span><span>Repuestos originales y certificados</span></li>' +
