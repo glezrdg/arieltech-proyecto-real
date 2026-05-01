@@ -489,7 +489,7 @@
     section.innerHTML =
       '<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">' +
         '<div class="max-w-3xl mx-auto text-center mb-12">' +
-          '<h2 class="text-3xl sm:text-4xl font-bold text-text leading-tight">Tu <span class="text-primary">mejor opción</span> en San Pedro de Macorís para reparar tu dispositivo. Claro, sin costos ocultos y con resultados garantizados.</h2>' +
+          '<h2 class="text-3xl sm:text-4xl font-bold text-text leading-tight">Tu <span class="text-primary">mejor opción</span> en San Pedro de Macorís para reparar tu dispositivo. Sin costos ocultos y con resultados garantizados.</h2>' +
         '</div>' +
         '<div class="ariel-grid-image-cards">' +
           '<div class="ariel-img-col is-single">' +
