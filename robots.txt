@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arieltechmobile.com/sitemap.xml
