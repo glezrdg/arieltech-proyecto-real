@@ -197,11 +197,13 @@
     return true;
   }
 
-  // Navbar scroll reveal — toggle .is-scrolled class based on scrollY
+  // Navbar scroll reveal — toggle .is-scrolled class based on scrollY.
+  // Queries <nav> fresh inside the handler so React re-renders that
+  // replace the navbar element don't leave us writing the class onto a
+  // detached node (which is why the brand stopped revealing).
   function bindBrandScrollSync() {
     const nav = document.querySelector('nav');
     if (!nav) return;
-    // Reset any inline styles left over from previous behavior
     const navBrand = nav.querySelector('a[href="#inicio"]');
     if (navBrand) {
       navBrand.style.opacity = '';
@@ -210,10 +212,12 @@
     }
     if (window.__navScrollBound) return;
     window.__navScrollBound = true;
-    const THRESHOLD = 80; // px scrolled before nav reveals
+    const THRESHOLD = 80;
     function update() {
-      if (window.scrollY > THRESHOLD) nav.classList.add('is-scrolled');
-      else nav.classList.remove('is-scrolled');
+      const live = document.querySelector('nav');
+      if (!live) return;
+      if (window.scrollY > THRESHOLD) live.classList.add('is-scrolled');
+      else live.classList.remove('is-scrolled');
     }
     window.addEventListener('scroll', update, { passive: true });
     update();
