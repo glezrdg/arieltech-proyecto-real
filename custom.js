@@ -1408,10 +1408,23 @@
     requestAnimationFrame(frame);
   }
 
+  // Resolve the underlying image URL. Next.js client hydration rewrites
+  // <img> srcs to /_next/image?url=%2Fimages%2F...&w=...&q=... — that
+  // endpoint does not exist in this static export and 404s, so we strip
+  // back to the real /images/... path before swapping.
+  function unwrapNextImageSrc(src) {
+    if (!src) return src;
+    const match = src.match(/[?&]url=([^&]+)/);
+    if (match && /\/_next\/image/.test(src)) {
+      try { return decodeURIComponent(match[1]); } catch (e) { return match[1]; }
+    }
+    return src;
+  }
+
   // Replace one Next.js Image element with a fresh, plain <img>.
   function swapNextImage(img) {
     if (!img || img.getAttribute('data-nimg-rehydrated') === '1') return;
-    const realSrc = img.getAttribute('src');
+    const realSrc = unwrapNextImageSrc(img.getAttribute('src'));
     if (!realSrc) return;
     const fresh = document.createElement('img');
     fresh.setAttribute('data-nimg-rehydrated', '1');
