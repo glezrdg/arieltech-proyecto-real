@@ -339,7 +339,7 @@
     {
       icon: 'star',
       title: '\u00BFPor qu\u00E9 elegirnos?',
-      desc: 'Experiencia, transparencia y resultados comprobados.<br><br>Más de 13 años resolviendo fallas con precisión técnica.<br>Trabajamos con diagnóstico real, procesos claros y comunicación directa.<br>Sin costos ocultos. Sin improvisaciones.'
+      desc: 'Experiencia, transparencia y resultados comprobados.<br><br>Más de 15 años resolviendo fallas con precisión técnica.<br>Trabajamos con diagnóstico real, procesos claros y comunicación directa.<br>Sin costos ocultos. Sin improvisaciones.'
     },
     {
       icon: 'shield',
